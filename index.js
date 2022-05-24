@@ -5,14 +5,6 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 
 
-class Guess {
-  constructor(sid, definition, user) {
-    this.sid = sid;
-    this.definition = definition;
-    this.user = user;
-  }
-}
-
 const guesses = new Array();
 
 const io = new Server(server, {
@@ -64,8 +56,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('new_guess', (payload) => {
-    const newGuess = new Guess(payload.sid, payload.definition, payload.user);
-    guesses.push()
+    socket.to(payload.room).emit('new_guess_to_host', payload.guess);
+    console.log(`(${socket.id}) Sending the following gues to host: '${payload.guess.definition}' on room '${payload.room}'`);
   })
 
 });
