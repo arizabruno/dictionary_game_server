@@ -1,20 +1,18 @@
 const express = require('express');
-var cors = require('cors');
+const http = require('http');
+const { Server } = require("socket.io");
 
+var cors = require('cors');
 const app = express();
 
 app.use(cors());
 
-const http = require('http');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-
-
-const guesses = new Array();
 
 const io = new Server(server, {
   cors: {
-    origin:"*"
+    origin: "*",
+    methods: [ "GET", "POST" ]
   }
 });
 
