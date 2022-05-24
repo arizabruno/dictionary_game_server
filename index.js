@@ -58,7 +58,11 @@ io.on('connection', (socket) => {
   socket.on('new_guess', (payload) => {
     socket.to(payload.room).emit('new_guess_to_host', payload.guess);
     console.log(`(${socket.id}) Sending the following gues to host: '${payload.guess.definition}' on room '${payload.room}'`);
-  })
+  });
+
+  socket.on("no_more_guesses", (payload) => {
+    socket.to(payload.room).emit("guess_time_out");
+  });
 
 });
 
